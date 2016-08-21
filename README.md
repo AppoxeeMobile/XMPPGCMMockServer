@@ -1,5 +1,7 @@
 # A GCM CCS/XMPP Mock server (Java)
 
+(for specific directions of Teradata, see at the bottom of this document)
+
 GCM CCS Mock server is an XMPP server to simulate the Google Cloud Messaging (GCM) Cloud Connection Server (CCS).
 It is useful in the development, QA and performance test environment.
 
@@ -38,7 +40,7 @@ copy the jar file to target location:
 
 ## Run it
 
-1. start the Redis server if message store is needed (message.store.enabled=true).
+1. [NOT NEEDED!] start the Redis server if message store is needed (message.store.enabled=true).
 2. start the mock server:
 
 		java -cp <target_location>/mockgcmxmppserver-1.0.0-SNAPSHOT-jar-with-dependencies.jar -DconfigFile=<CONFIG_FILE_PATH> com.jql.gcmccsmock.MockGCMXmppServer
@@ -50,3 +52,19 @@ copy the jar file to target location:
 * To trigger a draining control message, use the registration id specified in the configuration property draining.registration.id.
 
 Enjoy and if you find it useful, drop me a line or star it. Thanks.
+
+## Teradata specific instructions
+1. On Windows OS, you can use the my.cmd to run the mock server.
+2. If you see SSL problems when a client tries to connect to the mock server, this is probably because of certificate issues.
+do the following:
+Create a new cert file with this command:
+
+"\Program Files\Java\jdk1.8.0_74\jre\bin\keytool.exe" -genkey -alias localhost -keysize 512 -validity 365 -keyalg RSA -dname "CN=localhost,O=localhost,L=SF,ST=CA,C=US" -keypass password -storepass password -keystore mockgcm.cert -ext san=dns:localhost
+
+Copy the file mockgcm.cert to c:/temp/mock1.cert
+
+In config1.properties replace this line:
+keystore.path=mockgcm.keystore
+With this one:
+keystore.path=c:/temp/mock1.cert
+
