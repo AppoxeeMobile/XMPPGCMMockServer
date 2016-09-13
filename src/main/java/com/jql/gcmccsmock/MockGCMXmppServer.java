@@ -87,7 +87,7 @@ public class MockGCMXmppServer {
       server.addEndpoint(tcpEndpoint);
       server.setStorageProviderRegistry(providerRegistry);
 //      final ClassLoader resourceLoader = Thread.currentThread().getContextClassLoader();
-//      String certFile = config.getProperty("keystore.path", DEFAULT_CERT_FILE);
+      String certFile = config.getProperty("keystore.path", DEFAULT_CERT_FILE);
 //      try (InputStream is = (certFile.contains("/")) ? new FileInputStream(certFile) :
 //          resourceLoader.getResourceAsStream(certFile)) {
 //        server.setTLSCertificateInfo(is, config.getProperty("keystore.password", "password"));
@@ -95,7 +95,7 @@ public class MockGCMXmppServer {
 //        server.addModule(new GCMModule(serviceContext));
 //        logger.info("server started at port: {}", port);
 //      }
-        server.setTLSCertificateInfo(new File("C:/temp/mock1.cert"), "password");
+        server.setTLSCertificateInfo(new File(certFile), "password");
         server.start();
       server.getServerRuntimeContext().getServerFeatures().setStartTLSRequired(false);
         server.addModule(new GCMModule(serviceContext));
